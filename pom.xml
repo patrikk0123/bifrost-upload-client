@@ -19,6 +19,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>54</version>
+        <relativePath/>
+    </parent>
+
     <groupId>org.jboss.pnc</groupId>
     <artifactId>bifrost-upload-client</artifactId>
     <version>3.5.2-SNAPSHOT</version>
@@ -56,11 +63,10 @@
   </developers>
 
     <properties>
+        <maven.compiler.release>8</maven.compiler.release>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.javadoc.plugin>3.12.0</version.javadoc.plugin>
-        <version.source.plugin>3.4.0</version.source.plugin>
+        <jdk.min.version>8</jdk.min.version>
         <tagSuffix />
     </properties>
     <dependencies>
@@ -101,7 +107,7 @@
                   <tagNameFormat>@{project.version}${tagSuffix}</tagNameFormat>
                   <autoVersionSubmodules>true</autoVersionSubmodules>
                   <useReleaseProfile>false</useReleaseProfile>
-                  <releaseProfiles>release</releaseProfiles>
+                  <releaseProfiles>central-release</releaseProfiles>
                   <goals>deploy</goals>
               </configuration>
           </plugin>
@@ -112,60 +118,6 @@
           </plugin>
       </plugins>
     </build>
-    <profiles>
-      <profile>
-        <id>release</id>
-        <build>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${version.source.plugin}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar-no-fork</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${version.javadoc.plugin}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                            <configuration>
-                                <detectOfflineLinks>false</detectOfflineLinks>
-                                <quiet>true</quiet>
-                                <doclint>none</doclint>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.2.8</version>
-                    <executions>
-                        <execution>
-                            <id>sign-artifacts</id>
-                            <phase>verify</phase>
-                            <goals>
-                                <goal>sign</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-            </plugins>
-        </build>
-      </profile>
-    </profiles>
   <repositories>
     <repository>
       <name>Central Portal Snapshots</name>
